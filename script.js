@@ -21,7 +21,7 @@ downloadBtn.addEventListener("click", function (e) {
     let img = document.querySelector(".qr-body img");
     let canvas = document.querySelector("canvas");
 
-    // CASE 1: If QR Code is an <img> (some versions of QRCodeJS render image)
+    
     if (img) {
         fetch(img.src)
             .then(res => res.blob())
@@ -36,7 +36,7 @@ downloadBtn.addEventListener("click", function (e) {
         return;
     }
 
-    // CASE 2: If QR code is a <canvas>
+    
     if (canvas) {
         canvas.toBlob(function (blob) {
             let url = URL.createObjectURL(blob);
