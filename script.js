@@ -19,37 +19,36 @@ downloadBtn.addEventListener("click", function (e) {
     e.preventDefault();
 
     let img = document.querySelector(".qr-body img");
-    let canvas = document.querySelector("canvas");
+    let canvas = document.querySelector(".qr-body canvas");
 
+    
     if (img) {
-        fetch(img.src)
-            .then(res => res.blob())
-            .then(blob => {
-                let url = URL.createObjectURL(blob);
-                let a = document.createElement("a");
-                a.href = url;
-                a.download = "QR_Code.png";
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                URL.revokeObjectURL(url);
-            });
+        const link = document.createElement("a");
+        link.href = img.src;  
+        link.setAttribute("download", "QR_Code.png");
+
+        
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
         return;
     }
 
+    
     if (canvas) {
-        canvas.toBlob(function (blob) {
-            let url = URL.createObjectURL(blob);
-            let a = document.createElement("a");
-            a.href = url;
-            a.download = "QR_Code.png";
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            URL.revokeObjectURL(url);
-        });
+        const pngUrl = canvas.toDataURL("image/png"); 
+
+        const link = document.createElement("a");
+        link.href = pngUrl;
+        link.setAttribute("download", "QR_Code.png");
+
+        // Mobile fix: force click inside DOM
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
 });
+
 
 
 
