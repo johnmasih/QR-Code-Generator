@@ -15,17 +15,26 @@ sizes.addEventListener('change',(e)=>{
     isEmptyInput();
 });
 
-downloadBtn.addEventListener('click', ()=>{
-    let img = document.querySelector('.qr-body img');
+downloadBtn.addEventListener('click', (e) => {
+    e.preventDefault();
 
-    if(img !== null){
-        let imgAtrr = img.getAttribute('src');
-        downloadBtn.setAttribute("href", imgAtrr);
+    let canvas = document.querySelector('canvas');
+
+    if (!canvas) {
+        alert("Generate QR code first");
+        return;
     }
-    else{
-        downloadBtn.setAttribute("href", `${document.querySelector('canvas').toDataURL()}`);
-    }
+
+    canvas.toBlob(function(blob) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "QR_Code.png";
+        a.click();
+        URL.revokeObjectURL(url);
+    });
 });
+
 
 function isEmptyInput(){
     // if(qrText.value.length > 0){
