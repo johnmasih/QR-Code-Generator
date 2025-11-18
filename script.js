@@ -42,7 +42,7 @@ downloadBtn.addEventListener("click", function (e) {
         link.href = pngUrl;
         link.setAttribute("download", "QR_Code.png");
 
-        // Mobile fix: force click inside DOM
+        
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
