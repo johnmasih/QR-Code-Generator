@@ -21,7 +21,6 @@ downloadBtn.addEventListener("click", function (e) {
     let img = document.querySelector(".qr-body img");
     let canvas = document.querySelector("canvas");
 
-    
     if (img) {
         fetch(img.src)
             .then(res => res.blob())
@@ -30,24 +29,28 @@ downloadBtn.addEventListener("click", function (e) {
                 let a = document.createElement("a");
                 a.href = url;
                 a.download = "QR_Code.png";
+                document.body.appendChild(a);
                 a.click();
+                a.remove();
                 URL.revokeObjectURL(url);
             });
         return;
     }
 
-    
     if (canvas) {
         canvas.toBlob(function (blob) {
             let url = URL.createObjectURL(blob);
             let a = document.createElement("a");
             a.href = url;
             a.download = "QR_Code.png";
+            document.body.appendChild(a);
             a.click();
+            a.remove();
             URL.revokeObjectURL(url);
         });
     }
 });
+
 
 
 
