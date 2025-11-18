@@ -15,25 +15,40 @@ sizes.addEventListener('change',(e)=>{
     isEmptyInput();
 });
 
-downloadBtn.addEventListener('click', (e) => {
+downloadBtn.addEventListener("click", function (e) {
     e.preventDefault();
 
-    let canvas = document.querySelector('canvas');
+    let img = document.querySelector(".qr-body img");
+    let canvas = document.querySelector("canvas");
 
-    if (!canvas) {
-        alert("Generate QR code first");
+    // CASE 1: If QR Code is an <img> (some versions of QRCodeJS render image)
+    if (img) {
+        fetch(img.src)
+            .then(res => res.blob())
+            .then(blob => {
+                let url = URL.createObjectURL(blob);
+                let a = document.createElement("a");
+                a.href = url;
+                a.download = "QR_Code.png";
+                a.click();
+                URL.revokeObjectURL(url);
+            });
         return;
     }
 
-    canvas.toBlob(function(blob) {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "QR_Code.png";
-        a.click();
-        URL.revokeObjectURL(url);
-    });
+    // CASE 2: If QR code is a <canvas>
+    if (canvas) {
+        canvas.toBlob(function (blob) {
+            let url = URL.createObjectURL(blob);
+            let a = document.createElement("a");
+            a.href = url;
+            a.download = "QR_Code.png";
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+    }
 });
+
 
 
 function isEmptyInput(){
